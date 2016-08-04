@@ -1,11 +1,10 @@
 const http = require('http')
 const port = 7000
-var r = require('./server/db')
+const r = require('./server/db')
 
 const requestHandler = function (request, response) {
   console.log(request.url)
-  // response.end('Day 2 of 100 commits!')
-  response.end(r.table('todo'))
+  response.end('Day 2 of 100 commits!')
 }
 
 const server = http.createServer(requestHandler)
