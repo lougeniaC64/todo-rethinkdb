@@ -1,0 +1,19 @@
+{
+  "name": "todo-rethinkdb",
+  "version": "1.0.0",
+  "description": "a todo app with node and rethinkdb",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lougeniac64/todo-rethinkdb.git"
+  },
+  "author": "lougeniaC64",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lougeniac64/todo-rethinkdb/issues"
+  },
+  "homepage": "https://github.com/lougeniac64/todo-rethinkdb#readme"
+}
