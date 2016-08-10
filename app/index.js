@@ -4,6 +4,7 @@ const expressPort = 3000
 
 var r = require('rethinkdb')
 const config = { rethinkdb: { host: 'localhost', port: 28015 } }
+var tableList = []
 
 
 
@@ -18,6 +19,7 @@ r.connect(config.rethinkdb , function(err, conn) {
         console.log("Could not open a connection to initialize the database");
         throw err;
     }
+    tableList = r.db('test').tableList().run(conn)
     startExpress()
     // r.table('todo').indexWait('createdAt').run(conn).then(function(err, result) {
     //     console.log("Table and index are available, starting express...");
@@ -48,7 +50,7 @@ function closeConnection(req, res, next) {
 }
 
 function get(req, res) {
-  res.send(['me', 'you', 'them'])
+  res.send(tableList)
 }
 
 function startExpress() {
