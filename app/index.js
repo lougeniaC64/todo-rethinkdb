@@ -2,54 +2,34 @@ const express = require('express'),
   app = express(),
   r = require('rethinkdb')
 var config = require('./config'),
-  tableList = [],
-  connection = {}
+  connection = null
 
-// app.use(createConnection);
+app.get('/todos/', getTodos)
 
-app.get('/todo/get', get);
+app.get('/todo/', getTodo)
 
-// app.use(closeConnection);
-
-r.connect(config.rethinkdb , function(err, conn) {
-    if (err) {
-        console.log('Could not open a connection to initialize the database');
-        throw err;
-    }
-    // connection = conn
-    tableList = r.db('test').tableList().run(conn)
-    startExpress()
-    // r.table('todo').indexWait('createdAt').run(conn).then(function(err, result) {
-    //     console.log("Table and index are available, starting express...");
-    //     startExpress();
-    // }).error(function(err) {
-    //   // r.db('test').tableCreate('todo').run(conn, function(err, result) {
-    //   //   if (err) {
-    //   //     throw err;
-    //   //   }
-    //   //
-    //   //   startExpress()
-    //   //   console.log(JSON.stringify(result, null, 2));
-    //   // })
-    // });
+app.listen(config.express.port, function() {
+    console.log('Listening on port ' + config.express.port)
 })
 
-function createConnection(req, res, next) {
-    // r.connect(config.rethinkdb).then(function(conn) {
-    //     req._rdbConn = conn;
-    //     next();
-    // });
+function getTodos (req, res) {
+  r.connect(config.rethinkdb, function(err, conn) {
+    if (err) throw err;
+    connection = conn
+    sendAllTodos(r, connection, res)
+  })
 }
 
-function closeConnection(req, res, next) {
-    conn.close();
+function getTodo (req, res) {
+  res.send('Hello World!')
 }
 
-function get(req, res) {
-  res.send(tableList)
-}
-
-function startExpress() {
-    app.listen(config.express.port);
-    console.log('Listening on port ' + config.express.port);
+function sendAllTodos (r, connection, res) {
+  r.table('todo').run(connection, function(err, cursor) {
+      if (err) throw err;
+      cursor.toArray(function(err, result) {
+          if (err) throw err;
+          res.send(JSON.stringify(result, null, 2))
+      });
+  });
 }
