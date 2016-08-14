@@ -2,19 +2,21 @@ const express = require('express'),
   app = express(),
   r = require('rethinkdb')
 var config = require('./config'),
-  tableList = []
+  tableList = [],
+  connection = {}
 
-app.use(createConnection);
+// app.use(createConnection);
 
 app.get('/todo/get', get);
 
-app.use(closeConnection);
+// app.use(closeConnection);
 
 r.connect(config.rethinkdb , function(err, conn) {
     if (err) {
         console.log('Could not open a connection to initialize the database');
         throw err;
     }
+    // connection = conn
     tableList = r.db('test').tableList().run(conn)
     startExpress()
     // r.table('todo').indexWait('createdAt').run(conn).then(function(err, result) {
@@ -33,14 +35,14 @@ r.connect(config.rethinkdb , function(err, conn) {
 })
 
 function createConnection(req, res, next) {
-    r.connect(config.rethinkdb).then(function(conn) {
-        req._rdbConn = conn;
-        next();
-    });//.error(handleError(res));
+    // r.connect(config.rethinkdb).then(function(conn) {
+    //     req._rdbConn = conn;
+    //     next();
+    // });
 }
 
 function closeConnection(req, res, next) {
-    req._rdbConn.close();
+    conn.close();
 }
 
 function get(req, res) {
