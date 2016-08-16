@@ -4,6 +4,11 @@ const express = require('express'),
 var config = require('./config'),
   connection = null
 
+app.use('/todo', function(req, res, next) {
+  res.send('this todo rocks!')
+  next();
+});
+
 app.get('/todos/', getTodos)
 
 app.get('/todo/', getTodo)
@@ -20,9 +25,7 @@ function getTodos (req, res) {
   })
 }
 
-function getTodo (req, res) {
-  res.send('Hello World!')
-}
+function getTodo (req, res) { }
 
 function sendAllTodos (r, connection, res) {
   r.table('todo').run(connection, function(err, cursor) {
