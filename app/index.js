@@ -4,14 +4,9 @@ const express = require('express'),
 var config = require('./config'),
   connection = null
 
-app.use('/todo', function(req, res, next) {
-  res.send('this todo rocks!')
-  next();
-});
-
 app.get('/todos/', getTodos)
 
-app.get('/todo/', getTodo)
+app.get('/todo/:todoId', getTodo)
 
 app.listen(config.express.port, function() {
     console.log('Listening on port ' + config.express.port)
@@ -25,7 +20,9 @@ function getTodos (req, res) {
   })
 }
 
-function getTodo (req, res) { }
+function getTodo (req, res) {
+  res.send(req.params)
+}
 
 function sendAllTodos (r, connection, res) {
   r.table('todo').run(connection, function(err, cursor) {
