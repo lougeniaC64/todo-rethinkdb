@@ -4,9 +4,7 @@ const express = require('express'),
 var config = require('./config'),
   connection = null
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html')
-})
+app.get('/', sendIndexTemplate)
 
 app.get('/todos/', getTodos)
 
@@ -15,6 +13,10 @@ app.get('/todo/:todoId', getTodo)
 app.listen(config.express.port, function() {
     console.log('Listening on port ' + config.express.port)
 })
+
+function sendIndexTemplate (req, res) {
+  res.sendFile(__dirname + '/index.html')
+}
 
 function getTodos (req, res) {
   r.connect(config.rethinkdb, function(err, conn) {
