@@ -4,7 +4,12 @@
   "description": "a todo app with node and rethinkdb",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "lite": "lite-server",
+    "postinstall": "typings install",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings"
   },
   "repository": {
     "type": "git",
