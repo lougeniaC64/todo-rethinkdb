@@ -8,10 +8,7 @@ var config = require('./config'),
 
 app.get('/todos/', getTodos)
 
-app.post('/todo/create', function (req, res) {
-  req.body = { testValue: 'tada'}
-  res.send(req.body)
-})
+app.post('/todo/create', createTodo)
 
 app.get('/todo/:todoId', getTodo)
 
@@ -22,6 +19,11 @@ app.listen(config.express.port, function() {
 // function sendIndexTemplate (req, res) {
 //   res.sendFile(__dirname + '/index.html')
 // }
+
+function createTodo (req, res) {
+  req.body = { testValue: 'tada'}
+  res.send(req.body)
+}
 
 function getTodos (req, res) {
   r.connect(config.rethinkdb, function(err, conn) {
