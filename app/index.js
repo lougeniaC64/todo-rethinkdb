@@ -12,13 +12,15 @@ app.post('/todo/create', createTodo)
 
 app.get('/todo/:todoId', getTodo)
 
-app.listen(config.express.port, function() {
-    console.log('Listening on port ' + config.express.port)
-})
+app.listen(config.express.port, writePortNumberToConsole)
 
 // function sendIndexTemplate (req, res) {
 //   res.sendFile(__dirname + '/index.html')
 // }
+
+function writePortNumberToConsole () {
+  console.log('Listening on port ' + config.express.port)
+}
 
 function createTodo (req, res) {
   req.body = { testValue: 'tada'}
